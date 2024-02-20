@@ -1,8 +1,10 @@
 package com.bootcamp.application.passwordmanager.service;
 
 import com.bootcamp.application.passwordmanager.entity.PasswordCredentials;
+import com.bootcamp.application.passwordmanager.exception.NotFoundException;
 import com.bootcamp.application.passwordmanager.repository.PasswordCredentialsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
@@ -21,13 +23,13 @@ public class PasswordCredentialsService {
 
     public List<PasswordCredentials> getAllPasswords() {
         List<PasswordCredentials> passwords = passwordCredentialsRepo.findAll();
-        passwords.forEach(this::decryptPassword);
+        passwords.forEach(this::decryptPassword);//decrypting password before retrieval
         return passwords;
     }
 
     public Optional<PasswordCredentials> getPasswordByWebsite(String website) {
         Optional<PasswordCredentials> passwordOptional = passwordCredentialsRepo.findByWebsite(website);
-        passwordOptional.ifPresent(this::decryptPassword);
+        passwordOptional.ifPresent(this::decryptPassword);//decrypting password before retrieval
         return passwordOptional;
     }
 
@@ -36,59 +38,67 @@ public class PasswordCredentialsService {
         return passwordCredentialsRepo.save(passwordCredentials);
     }
 
-    public PasswordCredentials updatePassword(Long id, PasswordCredentials updatedPasswordCredentials) {
-        if (passwordCredentialsRepo.existsById(id)) {
-            updatedPasswordCredentials.setId(id);
-            encryptPassword(updatedPasswordCredentials); // Encrypt password before updating
-            return passwordCredentialsRepo.save(updatedPasswordCredentials);
-        } else {
-            return null; // or throw an exception, depending on your preference
+    public PasswordCredentials updatePassword(String website, PasswordCredentials updatedPasswordCredentials) throws NotFoundException {
+        Optional<PasswordCredentials> optionalPassword = passwordCredentialsRepo.findByWebsite(website);
+        if (optionalPassword.isPresent()) {
+            PasswordCredentials newPasswordCredentials = optionalPassword.get();
+            newPasswordCredentials.setUsername(updatedPasswordCredentials.getUsername());
+            newPasswordCredentials.setPassword(updatedPasswordCredentials.getPassword());
+            encryptPassword(newPasswordCredentials);
+            return passwordCredentialsRepo.save(newPasswordCredentials);
+        }
+        else {
+            throw new NotFoundException("Password not found for website: " + website);
         }
     }
 
-    public boolean deletePassword(Long id) {
-        if (passwordCredentialsRepo.existsById(id)) {
-            passwordCredentialsRepo.deleteById(id);
+
+    public boolean deletePassword(String website) throws NotFoundException {
+        Optional<PasswordCredentials> passwordOptional = passwordCredentialsRepo.findByWebsite(website);
+        if (passwordOptional.isPresent()) {
+            passwordCredentialsRepo.delete(passwordOptional.get());
             return true;
-        } else {
-            return false; // or throw an exception, depending on your preference
+        }
+        else {
+            throw new NotFoundException("Password not found for website: " + website);
         }
     }
 
     private void encryptPassword(PasswordCredentials passwordCredentials) {
         try {
-            // Create AES cipher
+
             Cipher cipher = Cipher.getInstance("AES");
             SecretKeySpec secretKeySpec = new SecretKeySpec(AES_SECRET_KEY.getBytes(), "AES");
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
 
-            // Encrypt password
+            // Encrypting password
             byte[] encryptedPasswordBytes = cipher.doFinal(passwordCredentials.getPassword().getBytes());
             String encryptedPassword = Base64.getEncoder().encodeToString(encryptedPasswordBytes);
 
-            // Update password in PasswordCredentials
+            // Updating password in PasswordCredentials
             passwordCredentials.setPassword(encryptedPassword);
-        } catch (Exception e) {
-            e.printStackTrace(); // Handle encryption failure appropriately
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error encrypting password", e);
         }
     }
 
     private void decryptPassword(PasswordCredentials passwordCredentials) {
         try {
-            // Create AES cipher
+
             Cipher cipher = Cipher.getInstance("AES");
             SecretKeySpec secretKeySpec = new SecretKeySpec(AES_SECRET_KEY.getBytes(), "AES");
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
 
-            // Decrypt password
+            // Decrypting password
             byte[] decryptedPasswordBytes = cipher.doFinal(Base64.getDecoder().decode(passwordCredentials.getPassword()));
             String decryptedPassword = new String(decryptedPasswordBytes);
 
-            // Update password in PasswordCredentials
+            // Updating password in PasswordCredentials
             passwordCredentials.setPassword(decryptedPassword);
-        } catch (Exception e) {
-            e.printStackTrace(); // Handle decryption failure appropriately
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error decrypting password", e);
         }
     }
 }
-
