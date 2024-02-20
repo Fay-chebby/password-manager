@@ -4,11 +4,12 @@ import com.bootcamp.application.passwordmanager.entity.PasswordCredentials;
 import com.bootcamp.application.passwordmanager.exception.NotFoundException;
 import com.bootcamp.application.passwordmanager.repository.PasswordCredentialsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,8 @@ public class PasswordCredentialsService {
     @Autowired
     private PasswordCredentialsRepo passwordCredentialsRepo;
 
-    private static final String AES_SECRET_KEY = "9f159b7178faba6583f1f943c92490cb698f5cb7859a448ccb801c9a8db6a27c";
+    // Generating AES key
+    private static final SecretKey AES_SECRET_KEY = generateAESKey(128); // Using 128-bit key
 
     public List<PasswordCredentials> getAllPasswords() {
         List<PasswordCredentials> passwords = passwordCredentialsRepo.findAll();
@@ -33,9 +35,10 @@ public class PasswordCredentialsService {
         return passwordOptional;
     }
 
-    public PasswordCredentials addPassword(PasswordCredentials passwordCredentials) {
+    public String addPassword(PasswordCredentials passwordCredentials) {
         encryptPassword(passwordCredentials); // Encrypt password before saving
-        return passwordCredentialsRepo.save(passwordCredentials);
+        passwordCredentialsRepo.save(passwordCredentials);
+        return "password save";
     }
 
     public PasswordCredentials updatePassword(String website, PasswordCredentials updatedPasswordCredentials) throws NotFoundException {
@@ -66,10 +69,8 @@ public class PasswordCredentialsService {
 
     private void encryptPassword(PasswordCredentials passwordCredentials) {
         try {
-
             Cipher cipher = Cipher.getInstance("AES");
-            SecretKeySpec secretKeySpec = new SecretKeySpec(AES_SECRET_KEY.getBytes(), "AES");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            cipher.init(Cipher.ENCRYPT_MODE, AES_SECRET_KEY);
 
             // Encrypting password
             byte[] encryptedPasswordBytes = cipher.doFinal(passwordCredentials.getPassword().getBytes());
@@ -85,10 +86,8 @@ public class PasswordCredentialsService {
 
     private void decryptPassword(PasswordCredentials passwordCredentials) {
         try {
-
             Cipher cipher = Cipher.getInstance("AES");
-            SecretKeySpec secretKeySpec = new SecretKeySpec(AES_SECRET_KEY.getBytes(), "AES");
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+            cipher.init(Cipher.DECRYPT_MODE, AES_SECRET_KEY);
 
             // Decrypting password
             byte[] decryptedPasswordBytes = cipher.doFinal(Base64.getDecoder().decode(passwordCredentials.getPassword()));
@@ -99,6 +98,17 @@ public class PasswordCredentialsService {
         }
         catch (Exception e) {
             throw new RuntimeException("Error decrypting password", e);
+        }
+    }
+
+    // AES key generation method
+    private static SecretKey generateAESKey(int keyLength) {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(keyLength);
+            return keyGen.generateKey();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error generating AES key", e);
         }
     }
 }
