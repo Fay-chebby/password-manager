@@ -13,6 +13,6 @@ public class PasswordCredentials {
     private Long id;
     private String website;
     private String username;
-    private String encryptedPassword;
+    private String password;
 
 }
