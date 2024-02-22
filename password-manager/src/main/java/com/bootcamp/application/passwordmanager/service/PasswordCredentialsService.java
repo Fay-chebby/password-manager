@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -21,24 +23,24 @@ public class PasswordCredentialsService {
     private PasswordCredentialsRepo passwordCredentialsRepo;
 
     // Generating AES key
-    private static final SecretKey AES_SECRET_KEY = generateAESKey(128); // Using 128-bit key
+    private static final SecretKey AES_SECRET_KEY = generateAESKey(128);
 
     public List<PasswordCredentials> getAllPasswords() {
         List<PasswordCredentials> passwords = passwordCredentialsRepo.findAll();
-        passwords.forEach(this::decryptPassword);//decrypting password before retrieval
+        passwords.forEach(this::decryptPassword);
         return passwords;
     }
 
     public Optional<PasswordCredentials> getPasswordByWebsite(String website) {
         Optional<PasswordCredentials> passwordOptional = passwordCredentialsRepo.findByWebsite(website);
-        passwordOptional.ifPresent(this::decryptPassword);//decrypting password before retrieval
+        passwordOptional.ifPresent(this::decryptPassword);
         return passwordOptional;
     }
 
     public String addPassword(PasswordCredentials passwordCredentials) {
-        encryptPassword(passwordCredentials); // Encrypt password before saving
+        encryptPassword(passwordCredentials);
         passwordCredentialsRepo.save(passwordCredentials);
-        return "password save";
+        return "Password saved successfully";
     }
 
     public PasswordCredentials updatePassword(String website, PasswordCredentials updatedPasswordCredentials) throws NotFoundException {
@@ -49,28 +51,28 @@ public class PasswordCredentialsService {
             newPasswordCredentials.setPassword(updatedPasswordCredentials.getPassword());
             encryptPassword(newPasswordCredentials);
             return passwordCredentialsRepo.save(newPasswordCredentials);
-        }
-        else {
+        } else {
             throw new NotFoundException("Password not found for website: " + website);
         }
     }
-
 
     public boolean deletePassword(String website) throws NotFoundException {
         Optional<PasswordCredentials> passwordOptional = passwordCredentialsRepo.findByWebsite(website);
         if (passwordOptional.isPresent()) {
             passwordCredentialsRepo.delete(passwordOptional.get());
             return true;
-        }
-        else {
+        } else {
             throw new NotFoundException("Password not found for website: " + website);
         }
     }
 
     private void encryptPassword(PasswordCredentials passwordCredentials) {
         try {
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, AES_SECRET_KEY);
+
+            // Generate Initialization Vector
+            byte[] ivBytes = generateIv();
 
             // Encrypting password
             byte[] encryptedPasswordBytes = cipher.doFinal(passwordCredentials.getPassword().getBytes());
@@ -78,28 +80,40 @@ public class PasswordCredentialsService {
 
             // Updating password in PasswordCredentials
             passwordCredentials.setPassword(encryptedPassword);
-        }
-        catch (Exception e) {
+            passwordCredentials.setInitializationVector(Base64.getEncoder().encodeToString(ivBytes));
+        } catch (Exception e) {
             throw new RuntimeException("Error encrypting password", e);
         }
     }
 
     private void decryptPassword(PasswordCredentials passwordCredentials) {
         try {
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, AES_SECRET_KEY);
+            String encryptedPassword = passwordCredentials.getPassword();
+            if (encryptedPassword == null) {
+                throw new IllegalArgumentException("Encrypted password is null");
+            }
+
+            byte[] encryptedPasswordBytes = Base64.getDecoder().decode(encryptedPassword);
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+
+            // Retrieve Initialization Vector
+            byte[] ivBytes = Base64.getDecoder().decode(passwordCredentials.getInitializationVector());
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBytes);
+
+            cipher.init(Cipher.DECRYPT_MODE, AES_SECRET_KEY, ivParameterSpec);
 
             // Decrypting password
-            byte[] decryptedPasswordBytes = cipher.doFinal(Base64.getDecoder().decode(passwordCredentials.getPassword()));
+            byte[] decryptedPasswordBytes = cipher.doFinal(encryptedPasswordBytes);
             String decryptedPassword = new String(decryptedPasswordBytes);
 
             // Updating password in PasswordCredentials
             passwordCredentials.setPassword(decryptedPassword);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error decrypting password", e);
         }
     }
+
 
     // AES key generation method
     private static SecretKey generateAESKey(int keyLength) {
@@ -110,5 +124,13 @@ public class PasswordCredentialsService {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error generating AES key", e);
         }
+    }
+
+    // Method to generate Initialization Vector (IV)
+    private static byte[] generateIv() {
+        byte[] iv = new byte[16];
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(iv);
+        return iv;
     }
 }

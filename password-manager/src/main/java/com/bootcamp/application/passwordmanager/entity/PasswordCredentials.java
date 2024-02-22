@@ -14,5 +14,7 @@ public class PasswordCredentials {
     private String website;
     private String username;
     private String password;
+    private String initializationVector;
+
 
 }
