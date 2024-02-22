@@ -10,7 +10,7 @@ export const Navbar=()=>{
                <li>
                    <NavLink to="/SignUp">sign up</NavLink>
                </li>
-               <li className='nav-password'>  <NavLink to="/passwords">Passwords </NavLink> </li>
+               <li className='nav-password'>  <NavLink to="/Password">Passwords </NavLink> </li>
 
            </ul>
        </nav>
