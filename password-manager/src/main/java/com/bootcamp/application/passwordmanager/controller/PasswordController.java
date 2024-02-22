@@ -29,7 +29,7 @@ public class PasswordController {
 
 
 
-    @GetMapping("/password")
+    @GetMapping("/retrieve-password")
     public ResponseEntity<List<PasswordCredentials>> getPasswords() {
         List<PasswordCredentials> passwords = passwordCredentialsService.getAllPasswords();
         return ResponseEntity.ok(passwords);
