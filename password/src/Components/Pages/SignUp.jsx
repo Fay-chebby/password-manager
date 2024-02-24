@@ -1,41 +1,30 @@
-import React, { useState } from 'react';
-import './Signup.css';
-
-import user_icon from '../../Assets/Assets/person.png';
-import email_icon from '../../Assets/Assets/email.png';
-import password_icon from '../../Assets/Assets/password.png';
-
+import './SignUp.css'
 export const SignUp = () => {
-    const [action, setAction] = useState("Sign Up");
+    return(
+        <div>
+            <fieldset   >
+                <form action="" target="_blank">
+                    <h1>Password Registration </h1>
+                    <label htmlFor="name"><h3>Name:</h3></label>
+                    <input type="text" placeholder="Enter your name" required/><br/><br/>
+                    <label htmlFor="email"><h3 >Email:</h3></label>
+                    <input type="text" placeholder="Enter your Email" required/><br/><br/>
 
-    return (
-        <div className="container">
-            <div className="header">
-                <div className="text">{action}</div>
-                <div className="underline"></div>
-            </div>
-            <div className="inputs">
-                {action === "Login" ?  <div></div> :<div className="input">
-                    <img src={user_icon} alt=""/>
-                    <input type="text" placeholder="Name"/>
-                </div>}
-                <div className="input">
-                    <img src={email_icon} alt=""/>
-                    <input type="email" placeholder="Email"/>
-                </div>
-                <div className="input">
-                    <img src={password_icon} alt=""/>
-                    <input type="password" placeholder="Password"/>
-                </div>
-            </div>
-            {action === "Sign Up" ? <div></div> :
-                <div className="forgot-password">Lost Password? <span>Click Here!</span></div>}
-            <div className="submit-container">
-                <div className={action==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
-                <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
-            </div>
+
+                    <label htmlFor="password"
+                    ><h3 >Input your password:</h3></label
+                    >
+                    <input type="text" placeholder="Enter your password"/><br/><br/>
+                    <label htmlFor="password">
+                        <h3 >Confirm password:</h3></label
+                    >
+                    <input type="text" placeholder="Confirm password"/><br/><br/>
+
+
+                    <button type="submit">Register</button>
+
+                </form>
+            </fieldset>
         </div>
-    );
+    )
 }
-
-

@@ -8,9 +8,12 @@ export const Navbar=()=>{
            <NavLink  to="/" className='nav-log'>Home</NavLink >
            <ul className='nav-menu'>
                <li>
-                   <NavLink to="/SignUp">sign up</NavLink>
+                   <NavLink to="/SignUp">SignUp</NavLink>
                </li>
-               <li className='nav-password'>  <NavLink to="/Password">Passwords </NavLink> </li>
+               <li>
+                   <NavLink to="/Login">Login</NavLink>
+               </li>
+               <li className='nav-password'><NavLink to="/Password">Passwords </NavLink></li>
 
            </ul>
        </nav>
