@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 public interface JwtService {
 
-    String generateJwtToken(String username);
+    String generateJwtToken(UserDetails userDetails);
 
     Boolean isValid(String jwtToken, UserDetails userDetails);
 

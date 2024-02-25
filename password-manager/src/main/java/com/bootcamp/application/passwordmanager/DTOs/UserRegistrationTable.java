@@ -1,4 +1,4 @@
-package com.bootcamp.application.passwordmanager.dtos;
+package com.bootcamp.application.passwordmanager.DTOs;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,19 @@ public class UserRegistrationTable implements UserDetails {
 
     private String password;
 
+    private String email;
+
     private Role role;
+
+    /*Setting the default role for users.*/
+    @PrePersist
+    public void setDefault()
+    {
+        if(role == null)
+        {
+            this.role = Role.USER;
+        }
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

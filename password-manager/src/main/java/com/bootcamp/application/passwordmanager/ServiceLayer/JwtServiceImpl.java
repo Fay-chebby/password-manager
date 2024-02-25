@@ -18,11 +18,11 @@ public class JwtServiceImpl implements  JwtService{
 
     private final String SECRETE_KEY = "9d5a517ddceaccd8870a94d22188a4525daeb5d7028d413de938cc3ea4caea41";
     @Override
-    public String generateJwtToken(String username) {
+    public String generateJwtToken(UserDetails userDetails) {
         log.info("Generating a JTW token");
         return Jwts
                 .builder()
-                .subject(username)
+                .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + (1000 * 60 * 10)))
                 .signWith(getSecreteKey())
@@ -40,7 +40,7 @@ public class JwtServiceImpl implements  JwtService{
 
     private Boolean isExpired(String jwtToken) {
         log.info("Checking whether the jwt is expired.");
-        Date expiration = extractClaim(jwtToken, Claims::getExpiration);
+        Date expiration = extractExpiration(jwtToken);
         return expiration.before(new Date(System.currentTimeMillis()));
     }
 
