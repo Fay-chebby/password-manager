@@ -1,4 +1,4 @@
-package com.bootcamp.application.passwordmanager.dtos;
+package com.bootcamp.application.passwordmanager.DTOs;
 
 import lombok.Data;
 
