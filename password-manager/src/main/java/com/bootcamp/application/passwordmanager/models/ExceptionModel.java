@@ -18,8 +18,9 @@ public class ExceptionModel {
 
     private Date date;
 
-    private String exceptionClass()
-    {
-        return null;
+    private String exceptionClass;
+
+    public  <T> String exceptionClass(T exception) {
+        return String.valueOf(exception.getClass());
     }
 }
