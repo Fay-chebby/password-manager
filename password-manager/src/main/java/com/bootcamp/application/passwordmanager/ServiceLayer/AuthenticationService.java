@@ -28,7 +28,7 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtServiceImpl;
 
     private final UserDetailsRepository userDetailsRepository;
 
@@ -39,11 +39,11 @@ public class AuthenticationService {
     @Autowired
     public AuthenticationService(
             AuthenticationManager authenticationManager,
-            JwtService jwtService,
+            JwtServiceImpl jwtServiceImpl,
             UserDetailsRepository userDetailsRepository,
             PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
+        this.jwtServiceImpl = jwtServiceImpl;
         this.userDetailsRepository = userDetailsRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -78,7 +78,7 @@ public class AuthenticationService {
         log.info("User saved successfully");
 
         /*Generating the jwt*/
-        String token = jwtService.generateJwtToken(userRegistrationTable);
+        String token = jwtServiceImpl.generateJwtToken(userRegistrationTable);
 
         /*preparing the user response.*/
         authenticationResponseModel.setJwtToken(token);
@@ -119,7 +119,7 @@ public class AuthenticationService {
 
         /*Generating a new jwt for the user.*/
         log.info("generating the jwt.");
-        String token = jwtService.generateJwtToken(userDetails);
+        String token = jwtServiceImpl.generateJwtToken(userDetails);
 
         /*Preparing the user response.*/
         authenticationResponseModel.setDate(new Date());

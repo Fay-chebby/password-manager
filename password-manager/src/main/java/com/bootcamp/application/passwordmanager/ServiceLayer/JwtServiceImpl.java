@@ -12,12 +12,12 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.function.Function;
 
-@Service
 @Slf4j
-public class JwtServiceImpl implements  JwtService{
+@Service
+public class JwtServiceImpl{
 
     private final String SECRETE_KEY = "9d5a517ddceaccd8870a94d22188a4525daeb5d7028d413de938cc3ea4caea41";
-    @Override
+
     public String generateJwtToken(UserDetails userDetails) {
         log.info("Generating a JTW token");
         return Jwts
@@ -29,7 +29,7 @@ public class JwtServiceImpl implements  JwtService{
                 .compact();
     }
 
-    @Override
+
     public Boolean isValid(String jwtToken, UserDetails userDetails) {
         log.info("Checking validity of the jwt token");
         return extractUsername(jwtToken).equals(userDetails.getUsername())
@@ -50,7 +50,6 @@ public class JwtServiceImpl implements  JwtService{
         return extractClaim(jwtToken, Claims::getExpiration);
     }
 
-    @Override
     public String extractUsername(String jwtToken) {
         log.info("extracting username.");
         return extractClaim(jwtToken, Claims::getSubject);

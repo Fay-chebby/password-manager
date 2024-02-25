@@ -1,6 +1,6 @@
 package com.bootcamp.application.passwordmanager.SecurityFilters;
 
-import com.bootcamp.application.passwordmanager.ServiceLayer.JwtService;
+import com.bootcamp.application.passwordmanager.ServiceLayer.JwtServiceImpl;
 import com.bootcamp.application.passwordmanager.ServiceLayer.UserDetailsImplService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,12 +24,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
      private final UserDetailsImplService userDetailsImplService;
 
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtServiceImpl;
 
     @Autowired
-    public JwtFilter(UserDetailsImplService userDetailsImplService, JwtService jwtService) {
+    public JwtFilter(UserDetailsImplService userDetailsImplService, JwtServiceImpl jwtService) {
         this.userDetailsImplService = userDetailsImplService;
-        this.jwtService = jwtService;
+        this.jwtServiceImpl = jwtService;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = requestHeader.substring(7);
 
         /*Extracting the username from the jwt*/
-        String username = jwtService.extractUsername(token);
+        String username = jwtServiceImpl.extractUsername(token);
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null)
         {
@@ -59,7 +59,7 @@ public class JwtFilter extends OncePerRequestFilter {
             UserDetails userDetails = userDetailsImplService.loadUserByUsername(username);
 
             /*Checking the validity of the jason web token*/
-            if(jwtService.isValid(token, userDetails)){
+            if(jwtServiceImpl.isValid(token, userDetails)){
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
