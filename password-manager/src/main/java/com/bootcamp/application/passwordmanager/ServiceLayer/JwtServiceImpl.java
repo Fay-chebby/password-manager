@@ -37,15 +37,15 @@ public class JwtServiceImpl implements  JwtService{
                 !isExpired(jwtToken);
     }
 
-    @Override
-    public Boolean isExpired(String jwtToken) {
+
+    private Boolean isExpired(String jwtToken) {
         log.info("Checking whether the jwt is expired.");
         Date expiration = extractClaim(jwtToken, Claims::getExpiration);
         return expiration.before(new Date(System.currentTimeMillis()));
     }
 
-    @Override
-    public Date extractExpiration(String jwtToken) {
+
+    private Date extractExpiration(String jwtToken) {
         log.info("Extracting expiration date.");
         return extractClaim(jwtToken, Claims::getExpiration);
     }
@@ -56,8 +56,8 @@ public class JwtServiceImpl implements  JwtService{
         return extractClaim(jwtToken, Claims::getSubject);
     }
 
-    @Override
-    public Claims parseAllClaims(String jwtToken) {
+
+    private Claims parseAllClaims(String jwtToken) {
         log.info("extracting all claims.");
         return Jwts
                 .parser()
@@ -67,15 +67,14 @@ public class JwtServiceImpl implements  JwtService{
                 .getPayload();
     }
 
-    @Override
-    public <T> T extractClaim(String jwtToken, Function<Claims, T> getClaim) {
+
+    private  <T> T extractClaim(String jwtToken, Function<Claims, T> getClaim) {
         log.info("Generic function for extracting specific claim");
         Claims claims = parseAllClaims(jwtToken);
         return getClaim.apply(claims);
     }
 
-    @Override
-    public SecretKey getSecreteKey() {
+    private SecretKey getSecreteKey() {
         log.info("Generating a secrete key");
         byte[] bytes = Decoders.BASE64URL.decode(SECRETE_KEY);
         return Keys.hmacShaKeyFor(bytes);

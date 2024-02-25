@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class UserLoginService implements UserDetailsService {
+public class UserDetailsImplService implements UserDetailsService {
 
     private final UserDetailsRepository userDetailsRepository;
 
     @Autowired
-    public UserLoginService(UserDetailsRepository userDetailsRepository) {
+    public UserDetailsImplService(UserDetailsRepository userDetailsRepository) {
         this.userDetailsRepository = userDetailsRepository;
     }
 

@@ -13,15 +13,6 @@ public interface JwtService {
 
     Boolean isValid(String jwtToken, UserDetails userDetails);
 
-    Boolean isExpired(String jwtToken);
-
-    Date extractExpiration(String jwtToken);
 
     String extractUsername(String jwtToken);
-
-    Claims parseAllClaims(String jwtToken);
-
-    <T> T extractClaim(String jwtToken, Function<Claims, T> getClaim);
-
-    SecretKey getSecreteKey();
 }
