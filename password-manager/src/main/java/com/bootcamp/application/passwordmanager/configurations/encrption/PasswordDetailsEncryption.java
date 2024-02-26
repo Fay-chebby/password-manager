@@ -40,8 +40,19 @@ public class PasswordDetailsEncryption {
 
     }
 
-    public String decryptingMethod(String encodedMessage){
+    public String decryptingMethod(String encodedMessage)
+            throws NoSuchPaddingException,
+            NoSuchAlgorithmException,
+            InvalidAlgorithmParameterException,
+            InvalidKeyException,
+            IllegalBlockSizeException,
+            BadPaddingException {
         byte[] messageToDecrypt = decode(encodedMessage);
+        Cipher decryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
+        GCMParameterSpec spec = new GCMParameterSpec(tlen,IV);
+        decryptionCipher.init(Cipher.DECRYPT_MODE,SECRET_KEY,spec);
+        byte[] decryptedMessage = decryptionCipher.doFinal(messageToDecrypt);
+        return new String(decryptedMessage);
     }
     public String encode(byte[] data){
         return Base64.getEncoder().encodeToString(data);
