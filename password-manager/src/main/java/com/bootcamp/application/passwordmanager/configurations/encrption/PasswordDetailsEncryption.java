@@ -39,6 +39,10 @@ public class PasswordDetailsEncryption {
         return encode(encodedByteMessage);
 
     }
+
+    public String decryptingMethod(String encodedMessage){
+        byte[] messageToDecrypt = decode(encodedMessage);
+    }
     public String encode(byte[] data){
         return Base64.getEncoder().encodeToString(data);
     }
