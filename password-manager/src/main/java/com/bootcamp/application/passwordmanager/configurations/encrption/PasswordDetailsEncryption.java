@@ -1,5 +1,7 @@
 package com.bootcamp.application.passwordmanager.configurations.encrption;
 
+import org.springframework.stereotype.Component;
+
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -7,7 +9,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-
+@Component
 public class PasswordDetailsEncryption {
 
     private SecretKey SECRET_KEY;
