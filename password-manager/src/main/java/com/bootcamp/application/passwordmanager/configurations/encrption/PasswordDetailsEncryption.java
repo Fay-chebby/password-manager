@@ -2,6 +2,7 @@ package com.bootcamp.application.passwordmanager.configurations.encrption;
 
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -12,7 +13,7 @@ public class PasswordDetailsEncryption {
     private SecretKey SECRET_KEY;
     private int KEY_SIZE = 128;
     private byte[] IV;
-    private int tlen = 128;
+    private final int tlen = 128;
 
 
     private void init() throws NoSuchAlgorithmException {
@@ -53,6 +54,10 @@ public class PasswordDetailsEncryption {
         decryptionCipher.init(Cipher.DECRYPT_MODE,SECRET_KEY,spec);
         byte[] decryptedMessage = decryptionCipher.doFinal(messageToDecrypt);
         return new String(decryptedMessage);
+    }
+    public void exportStrings(String secretKey,String IV){
+        SECRET_KEY = new SecretKeySpec(decode(secretKey),"AES");
+        this.IV = decode(IV);
     }
     public String encode(byte[] data){
         return Base64.getEncoder().encodeToString(data);
