@@ -18,7 +18,7 @@ public class PasswordDetailsEncryption {
     private final int tlen = 128;
 
 
-    private void init() throws NoSuchAlgorithmException {
+    public void init() throws NoSuchAlgorithmException {
         KeyGenerator generator = KeyGenerator.getInstance("AES");
         generator.init(KEY_SIZE);
         SECRET_KEY = generator.generateKey();
