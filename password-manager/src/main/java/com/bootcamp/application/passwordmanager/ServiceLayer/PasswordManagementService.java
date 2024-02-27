@@ -4,7 +4,6 @@ import com.bootcamp.application.passwordmanager.DTOs.PasswordFront;
 import com.bootcamp.application.passwordmanager.configurations.encrption.PasswordDetailsEncryption;
 import com.bootcamp.application.passwordmanager.models.Password;
 import com.bootcamp.application.passwordmanager.repositories.ManagedPasswordsRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +19,6 @@ import java.security.NoSuchAlgorithmException;
 public class PasswordManagementService {
     private final ManagedPasswordsRepository managedPasswordsRepository;
     private final PasswordDetailsEncryption passwordDetailsEncryption;
-    private String SEC_KEY;
-    private  String generatedIV;
 
 
     public PasswordManagementService(ManagedPasswordsRepository managedPasswordsRepository, PasswordDetailsEncryption passwordDetailsEncryption) {
@@ -32,10 +29,7 @@ public class PasswordManagementService {
     public Password encryptDetails(PasswordFront passwordFront) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         Password password = new Password();
         log.info("service to encode is reached");
-        PasswordDetailsEncryption pass = new PasswordDetailsEncryption();
-        SEC_KEY = pass.init();
-        generatedIV = pass.generateIV();
-        passwordDetailsEncryption.exportStrings(SEC_KEY,generatedIV);
+        passwordDetailsEncryption.init();
         password.setPassword(passwordDetailsEncryption.encryptingMethod(
                 passwordFront.getPassword()
         ));
@@ -45,12 +39,13 @@ public class PasswordManagementService {
         log.info("method was success");
         return managedPasswordsRepository.save(password);
     }
-    /*public Password decryptDetails(String username){
-        try {
-            Password details = managedPasswordsRepository.findAllByUsername(username);
-            return details;
-        }catch (Exception e){
-            return null;
-        }
-    }*/
+    public String decryptDetails(Long id) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        log.info("service to decrypt details was requested");
+        String gotten = passwordDetailsEncryption.decryptingMethod(
+                String.valueOf(managedPasswordsRepository.findById(id).orElseThrow())
+        );
+
+
+        return gotten;
+    }
 }

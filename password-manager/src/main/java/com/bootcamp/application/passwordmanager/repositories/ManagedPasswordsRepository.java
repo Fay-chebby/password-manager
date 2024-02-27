@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ManagedPasswordsRepository extends JpaRepository<Password,Long> {
-    /*Password findAllByUsername(String username);*/
+
 }

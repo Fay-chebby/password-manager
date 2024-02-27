@@ -6,10 +6,7 @@ import com.bootcamp.application.passwordmanager.models.Password;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -34,5 +31,11 @@ public class EncryptionDecryptionController {
             InvalidKeyException {
         log.info("request to manage your details is received");
         return ResponseEntity.ok(managementService.encryptDetails(passwordFront));
+    }
+
+    @GetMapping("/decode")
+    private ResponseEntity<String> detailsDecoded(@RequestParam Long id) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        log.info("request to retrieve the details was called");
+        return ResponseEntity.ok(managementService.decryptDetails(id));
     }
 }
