@@ -24,7 +24,6 @@ public class PasswordManagementService {
 
     public Password encryptDetails(PasswordFront passwordFront) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         Password password = new Password();
-        passwordDetailsEncryption.init();
         passwordDetailsEncryption.exportStrings(SEC_KEY,IV);
         password.setPassword(passwordDetailsEncryption.encryptingMethod(
                 passwordFront.getPassword()
@@ -33,5 +32,13 @@ public class PasswordManagementService {
                 passwordFront.getWebsite()
         ));
         return managedPasswordsRepository.save(password);
+    }
+    public Password decryptDetails(String username){
+        try {
+            Password details = managedPasswordsRepository.findAllByUsername(username);
+            return details;
+        }catch (Exception e){
+            return null;
+        }
     }
 }
