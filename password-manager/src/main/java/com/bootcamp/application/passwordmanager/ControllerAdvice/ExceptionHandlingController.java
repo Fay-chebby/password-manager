@@ -12,7 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.Date .;
+import java.util.Date;
 
 @Slf4j
 @ControllerAdvice
@@ -76,4 +76,5 @@ public class ExceptionHandlingController {
         log.info("Handled the exception");
         return new ResponseEntity<>(exceptionModel, HttpStatus.BAD_REQUEST);
     }
+
 }
