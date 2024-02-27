@@ -22,11 +22,10 @@ public class PasswordDetailsEncryption {
 
     //generate a secret key
     public void init() throws NoSuchAlgorithmException {
-            log.info("secret key was generated");
-            KeyGenerator generator = KeyGenerator.getInstance("AES");
-            generator.init(KEY_SIZE);
-            SECRET_KEY = generator.generateKey();
-
+        KeyGenerator generator = KeyGenerator.getInstance("AES");
+        generator.init(KEY_SIZE);
+        SECRET_KEY = generator.generateKey();
+        log.info("secret key was generated");
     }
    /* //generate a IV
     public String generateIV() {
