@@ -92,8 +92,7 @@ public class AuthenticationService {
     private boolean isPasswordStrong(String password) {
         log.info("Checking whether the password matches specifications");
         Pattern pattern =
-                Pattern.compile("^(?=.*\\p{javaLowerCase})(?=.*\\p{javaUpperCase})" +
-                        "(?=.*\\p{javaDigit})(?=.*\\p{Punct})$");
+                Pattern.compile("^(?=.*\\p{javaLowerCase})(?=.*\\p{javaUpperCase})(?=.*\\p{javaDigit})(?=.*\\p{Punct}).*$");
 
         Matcher matcher = pattern.matcher(password);
 

@@ -8,9 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Date;
 
@@ -41,7 +41,7 @@ public class ExceptionHandlingController {
     @ExceptionHandler(UserExistException.class)
     public ResponseEntity<ExceptionModel> handleUserExistException(UserExistException e)
     {
-        log.info("Handling user already exist excption");
+        log.info("Handling user already exist exception");
 
         exceptionModel.setExceptionClass(exceptionModel.exceptionClass(e));
         exceptionModel.setDate(new Date());
@@ -62,4 +62,19 @@ public class ExceptionHandlingController {
 
         return new ResponseEntity<>(exceptionModel, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionModel>
+    handleMethodArgumentNotValidException(MethodArgumentNotValidException e)
+    {
+
+        log.error("Invalid argument");
+        exceptionModel.setMessage(e.getMessage());
+        exceptionModel.setDate(new Date());
+        exceptionModel.setStatus(HttpStatus.BAD_REQUEST);
+        exceptionModel.setExceptionClass(exceptionModel.exceptionClass(e));
+        log.info("Handled the exception");
+        return new ResponseEntity<>(exceptionModel, HttpStatus.BAD_REQUEST);
+    }
+
 }
