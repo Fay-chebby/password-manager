@@ -12,7 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.Date;
+import java.util.Date .;
 
 @Slf4j
 @ControllerAdvice
@@ -41,7 +41,7 @@ public class ExceptionHandlingController {
     @ExceptionHandler(UserExistException.class)
     public ResponseEntity<ExceptionModel> handleUserExistException(UserExistException e)
     {
-        log.info("Handling user already exist excption");
+        log.info("Handling user already exist exception");
 
         exceptionModel.setExceptionClass(exceptionModel.exceptionClass(e));
         exceptionModel.setDate(new Date());
@@ -67,6 +67,7 @@ public class ExceptionHandlingController {
     public ResponseEntity<ExceptionModel>
     handleMethodArgumentNotValidException(MethodArgumentNotValidException e)
     {
+
         log.error("Invalid argument");
         exceptionModel.setMessage(e.getMessage());
         exceptionModel.setDate(new Date());
