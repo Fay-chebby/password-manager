@@ -1,4 +1,4 @@
-package com.bootcamp.application.passwordmanager.services;
+package com.bootcamp.application.passwordmanager.ServiceLayer;
 
 import com.bootcamp.application.passwordmanager.DTOs.PasswordFront;
 import com.bootcamp.application.passwordmanager.configurations.encrption.PasswordDetailsEncryption;
