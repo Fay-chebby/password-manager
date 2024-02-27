@@ -2,7 +2,6 @@ package com.bootcamp.application.passwordmanager.configurations.encrption;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
@@ -10,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Base64;
 @Configuration
 @Slf4j
@@ -21,13 +21,27 @@ public class PasswordDetailsEncryption {
     private final int tlen = 128;
 
 
+    //generate a secret key
+    public String init(){
+        try {
+            KeyGenerator generator = KeyGenerator.getInstance("AES");
+            generator.init(KEY_SIZE);
+            SECRET_KEY = generator.generateKey();
+        }catch (NoSuchAlgorithmException nsae){
 
-    public void init() throws NoSuchAlgorithmException {
-        KeyGenerator generator = KeyGenerator.getInstance("AES");
-        generator.init(KEY_SIZE);
-        SECRET_KEY = generator.generateKey();
+        }
+        return null;
     }
+    //generate a IV
+    public String generateIV() {
+        log.info("IV generation method called");
+        SecureRandom secureRandom = new SecureRandom();
+        IV = new byte[16];
+        secureRandom.nextBytes(IV);
+        log.info("IV generation completed");
 
+        return null;
+    }
     //method to encrypt
     public String encryptingMethod(String message)
             throws NoSuchPaddingException,

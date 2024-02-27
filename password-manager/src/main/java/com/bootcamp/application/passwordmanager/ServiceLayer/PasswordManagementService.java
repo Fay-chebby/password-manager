@@ -16,18 +16,26 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class PasswordManagementService {
     private final ManagedPasswordsRepository managedPasswordsRepository;
     private final PasswordDetailsEncryption passwordDetailsEncryption;
-    private final String SEC_KEY = "";
-    private final String IV = "";
+    private String SEC_KEY;
+    private  String generatedIV;
+
+
+    public PasswordManagementService(ManagedPasswordsRepository managedPasswordsRepository, PasswordDetailsEncryption passwordDetailsEncryption) {
+        this.managedPasswordsRepository = managedPasswordsRepository;
+        this.passwordDetailsEncryption = passwordDetailsEncryption;
+    }
 
     public Password encryptDetails(PasswordFront passwordFront) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         Password password = new Password();
         log.info("service to encode is reached");
-        passwordDetailsEncryption.exportStrings(SEC_KEY,IV);
+        PasswordDetailsEncryption pass = new PasswordDetailsEncryption();
+        SEC_KEY = pass.init();
+        generatedIV = pass.generateIV();
+        passwordDetailsEncryption.exportStrings(SEC_KEY,generatedIV);
         password.setPassword(passwordDetailsEncryption.encryptingMethod(
                 passwordFront.getPassword()
         ));
