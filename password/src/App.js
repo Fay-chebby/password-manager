@@ -7,6 +7,7 @@ import {Password} from "./Components/Pages/Password";
 import {Home} from "./Components/Pages/Home";
 import {SignUp} from "./Components/Pages/SignUp";
 import {useEffect} from "react";
+import {Footer} from "./Components/Footer";
 
 function App() {
     useEffect(
@@ -26,6 +27,7 @@ function App() {
             <Route path="/Login" element={<Login/>}/>
             <Route path="/password" element={<Password/>}/>
         </Routes>
+        <Footer/>
     </div>
   );
 }

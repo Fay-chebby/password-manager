@@ -1,0 +1,36 @@
+.wrapper{
+    display:flex;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+.accordian{
+    width:500px
+}
+.item{
+    background:#f0ebe1;
+    margin-bottom: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.title{
+    color :#85662b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+}
+.content{
+    color: black;
+    max-height:0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0,1,0,1);
+}
+.content.show{
+    height: auto;
+    max-height: 99px;
+    transition: all 0.5s cubic-bezier(0,1,0,1);
+
+}

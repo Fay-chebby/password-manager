@@ -30,7 +30,7 @@ export const Password = () => {
     const [records, setRecords] = useState([]);
 
     const handleFilter = (event) => {
-        // Filter the data based on input value
+
         const newData = records.filter((row) => {
             return row.constructor.toLowerCase().includes(event.target.value.toLowerCase());
         });
@@ -39,7 +39,7 @@ export const Password = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Extract form data
+
         const formData = new FormData(event.target);
         const newRecord = {
             date: formData.get("date"),
@@ -47,9 +47,9 @@ export const Password = () => {
             email: formData.get("email"),
             password: formData.get("password"),
         };
-        // Add new record to the records array
+
         setRecords([...records, newRecord]);
-        // Clear the form
+
         event.target.reset();
     };
 
