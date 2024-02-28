@@ -6,12 +6,20 @@ import {Login} from "./Components/Pages/Login";
 import {Password} from "./Components/Pages/Password";
 import {Home} from "./Components/Pages/Home";
 import {SignUp} from "./Components/Pages/SignUp";
+import {useEffect} from "react";
 
 function App() {
+    useEffect(
+        ()=>{
+            fetch('https://localhost:8080')
+                .then(response =>response.json())
+                .then(result=>console.log(result));
+        },[]);
   return (
     <div >
 <Navbar/>
         <Routes>
+
             <Route path="/" element={<Home/>}/>
 
             <Route path="/SignUp" element={<SignUp/>}/>

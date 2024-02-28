@@ -1,8 +1,8 @@
 import './SignUp.css'
 export const SignUp = () => {
     return(
-        <div>
-            <fieldset   >
+        <div class="sign__container">
+            <fieldset>
                 <form action="" target="_blank">
                     <h1>Password Registration </h1>
                     <label htmlFor="name"><h3>Name:</h3></label>

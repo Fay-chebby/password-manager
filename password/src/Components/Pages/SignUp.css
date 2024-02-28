@@ -5,9 +5,22 @@
     /* height: 100vh;
     margin: 0;
 }*/
+body{
+    background: linear-gradient(#2a00b7,#42006c);
+}
+.sign__container{
+
+    justify-content: center;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 3rem;
+
+}
+
 
 fieldset {
-    max-width: 500px;
+    /*max-width: 200px;*/
+    background-color: lightgray;
     width: 100%;
     /*padding: 20px;*/
     border: 1px solid #333;
@@ -18,13 +31,31 @@ fieldset {
 form {
     /*text-align: center;*/
 }
+
+/*.label h3{
+    color:#42006c;
+    font-size: ;
+    font-weight:bold;
+}*/
+
+input{
+    border-radius: 5px;
+    
+
+}
 button {
-    background-color: blue;
+    background-color: #2a00b7;
     color: white;
+    width:100%;
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: .3s;
+}
+button:hover{
+    background-color: white;
+    color:#2a00b7;
 }
 input {
     width: 100%;

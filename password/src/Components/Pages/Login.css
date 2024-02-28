@@ -1,10 +1,11 @@
-sign {
+.sign{
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    margin: 0;
-    margin-top: 0px;
+    margin-right: 30%;
+    margin-left: 30%;
+    margin-top: 3rem;
 }
 
 fieldset {
