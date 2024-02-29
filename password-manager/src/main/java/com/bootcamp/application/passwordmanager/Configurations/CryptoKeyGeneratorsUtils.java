@@ -4,9 +4,11 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import java.security.SecureRandom;
 
 @Component
-public class CryptoUtils {
+public class CryptoKeyGeneratorsUtils {
 
     //generate the secret key from random number
     public static SecretKey generateSecretKey() throws Exception{
@@ -17,6 +19,11 @@ public class CryptoUtils {
         return SECRET_KEY;
     }
 
-    //
+    //generate initialization vector from secure random
+    public static IvParameterSpec generateIv(){
+        byte[] IV = new byte[16];
+        new SecureRandom().nextBytes(IV);
+        return new IvParameterSpec(IV);
+    }
 
 }
