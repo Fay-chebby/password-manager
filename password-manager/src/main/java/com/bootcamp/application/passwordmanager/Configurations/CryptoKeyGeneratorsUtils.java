@@ -11,7 +11,7 @@ import java.security.SecureRandom;
 public class CryptoKeyGeneratorsUtils {
 
     //generate the secret key from random number
-    public static SecretKey generateSecretKey() throws Exception{
+    public SecretKey generateSecretKey() throws Exception{
         int size = 256;
         KeyGenerator generator = KeyGenerator.getInstance("AES");
         generator.init(size);
@@ -20,7 +20,7 @@ public class CryptoKeyGeneratorsUtils {
     }
 
     //generate initialization vector from secure random
-    public static IvParameterSpec generateIv(){
+    public IvParameterSpec generateIv(){
         byte[] IV = new byte[16];
         new SecureRandom().nextBytes(IV);
         return new IvParameterSpec(IV);

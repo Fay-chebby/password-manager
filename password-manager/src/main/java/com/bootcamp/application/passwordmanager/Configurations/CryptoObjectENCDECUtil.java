@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Component
 public class CryptoObjectENCDECUtil {
 
-    public static SealedObject encryptObject
+    public  SealedObject encryptObject
             (String algorithm, Serializable object,
              SecretKey key, IvParameterSpec iv)throws Exception{
 
