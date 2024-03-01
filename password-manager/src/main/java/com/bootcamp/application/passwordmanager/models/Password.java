@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import javax.crypto.SealedObject;
 import java.io.Serializable;
 
 @Data
@@ -16,4 +17,8 @@ public class Password implements Serializable {
     private Long id;
     private String password;
     private String website;
+    private SealedObject encryptedPassword;
+
+    public void setEncryptedPassword(SealedObject encryptedObject) {
+    }
 }

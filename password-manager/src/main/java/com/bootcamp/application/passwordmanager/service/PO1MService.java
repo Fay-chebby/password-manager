@@ -5,6 +5,7 @@ import com.bootcamp.application.passwordmanager.Configurations.CryptoObjectENCDE
 import com.bootcamp.application.passwordmanager.DTOs.PasswordFront;
 import com.bootcamp.application.passwordmanager.models.Password;
 
+import com.bootcamp.application.passwordmanager.repositories.PasswordsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,22 +21,36 @@ public class PO1MService {
 
     private final CryptoKeyGeneratorsUtils generatorsUtils;
     private final CryptoObjectENCDECUtil encdecUtil;
-    //private final PasswordsRepository passwordsRepository;
+    private final PasswordsRepository passwordsRepository;
 
 
 
-    public Password passwordToManage(PasswordFront front)throws Exception{
+    public Password passwordToManage(PasswordFront front) throws Exception {
         log.info("service to manage password");
-        Password password = new Password();
+
+        // Generate secret key and initialization vector
         SecretKey key = generatorsUtils.generateSecretKey();
-        IvParameterSpec iv =generatorsUtils.generateIv();
+        IvParameterSpec iv = generatorsUtils.generateIv();
 
-        password.setPassword(front.getPassword());
+        // Create a new Password object with website and password
+        Password password = new Password();
         password.setWebsite(front.getWebsite());
+        password.setPassword(front.getPassword());
 
-        log.info("encrypting password object");
-        SealedObject obj = encdecUtil.encryptObject("AES",password,key,iv);
-        return null;
+        // Encrypt the password object
+        SealedObject encryptedPassword = encdecUtil.encryptObject("AES", password, key, iv);
+
+        // Set the encrypted password to the password object
+        password.setEncryptedPassword(encryptedPassword);
+
+        // Save the password object to the repository
+        passwordsRepository.save(password);
+
+        // Return the password object with encrypted password in the response
+        return password;
     }
 
 }
+
+
+

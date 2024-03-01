@@ -15,7 +15,7 @@ public class CryptoObjectENCDECUtil {
              SecretKey key, IvParameterSpec iv)throws Exception{
 
         Cipher encryptionCipher = Cipher.getInstance(algorithm);
-        encryptionCipher.init(Cipher.ENCRYPT_MODE,key,iv);
+        encryptionCipher.init(Cipher.ENCRYPT_MODE,key);
         SealedObject sealedObject = new SealedObject(object,encryptionCipher);
         return sealedObject;
     }
