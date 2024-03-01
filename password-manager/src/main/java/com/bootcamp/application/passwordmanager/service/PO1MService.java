@@ -8,6 +8,7 @@ import com.bootcamp.application.passwordmanager.models.Password;
 import com.bootcamp.application.passwordmanager.repositories.PasswordsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -66,6 +67,19 @@ public class PO1MService {
 
 
         return passwordsRepository.save(updatePassword);
+    }
+
+    public HttpStatus deleteDetails(Long id)throws Exception{
+        log.info("deleting the details managed for user with id {} ", id);
+        Optional<Password> passwordToDelete = passwordsRepository.findById(id);
+        if (passwordToDelete.isEmpty()){
+            throw new IllegalArgumentException("the password with is "+id+ "does not exist");
+        }
+        Password delete = passwordToDelete.get();
+        passwordsRepository.delete(delete);
+        log.info("deletion success for user with id {} ", id);
+
+        return HttpStatus.OK;
     }
 
 }

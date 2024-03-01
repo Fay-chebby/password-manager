@@ -48,5 +48,22 @@ public class ENCDECcryptoController {
         }
     }
 
+    @DeleteMapping("/deleteManager/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+        log.info("Request to delete was received");
+
+        try {
+            HttpStatus status = po1MService.deleteDetails(id);
+            return ResponseEntity.status(status).build();
+        } catch (IllegalArgumentException e) {
+            // Handle case where password with the given ID does not exist
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            // Handle other unexpected errors
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
 
 }
