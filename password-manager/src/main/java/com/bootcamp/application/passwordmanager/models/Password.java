@@ -1,9 +1,6 @@
 package com.bootcamp.application.passwordmanager.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import javax.crypto.SealedObject;
@@ -17,6 +14,5 @@ public class Password implements Serializable {
     private Long id;
     private String password;
     private String website;
-
 
 }

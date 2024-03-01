@@ -1,11 +1,10 @@
 package com.bootcamp.application.passwordmanager.service;
 
-import com.bootcamp.application.passwordmanager.Configurations.CryptoKeyGeneratorsUtils;
 import com.bootcamp.application.passwordmanager.Configurations.CryptoObjectENCDECUtil;
 import com.bootcamp.application.passwordmanager.DTOs.DecryptedDetails;
 import com.bootcamp.application.passwordmanager.DTOs.PasswordFront;
+import com.bootcamp.application.passwordmanager.DTOs.UpdatingDto;
 import com.bootcamp.application.passwordmanager.models.Password;
-
 import com.bootcamp.application.passwordmanager.repositories.PasswordsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,36 +17,10 @@ import java.util.Optional;
 @Slf4j
 public class PO1MService {
 
-    private final CryptoKeyGeneratorsUtils generatorsUtils;
     private final CryptoObjectENCDECUtil encdecUtil;
     private final PasswordsRepository passwordsRepository;
 
 
-/*
-    public Password passwordToManage(PasswordFront front) throws Exception {
-        log.info("service to manage password");
-
-        // Generate secret key and initialization vector
-        SecretKey key = generatorsUtils.generateSecretKey();
-        IvParameterSpec iv = generatorsUtils.generateIv();
-
-        // Create a new Password object with website and password
-        Password password = new Password();
-        password.setWebsite(front.getWebsite());
-        password.setPassword(front.getPassword());
-
-        // Encrypt the password object
-        SealedObject encryptedPassword = encdecUtil.encryptObject("AES", password, key, iv);
-
-        // Set the encrypted password to the password object
-        password.setEncryptedPassword(encryptedPassword);
-
-        // Save the password object to the repository
-        passwordsRepository.save(password);
-
-        // Return the password object with encrypted password in the response
-        return password;
-    }*/
 
     public Password encryptDetails(PasswordFront front)throws Exception{
         log.info("service to encrypt objects");
@@ -75,9 +48,24 @@ public class PO1MService {
         // Decrypt the encrypted password from the Password object
         String decryptedPassword = encdecUtil.decrypt(password.getPassword());
         String decryptedWebsite = encdecUtil.decrypt(password.getWebsite());
-
+        log.info("fetching was successful");
         // Return the decrypted password
         return new DecryptedDetails(decryptedPassword,decryptedWebsite);
+    }
+
+    public Password updateDetails(Long id, UpdatingDto updatingDto) throws Exception{
+        log.info("updating managed details");
+        Optional<Password> toUpdate = passwordsRepository.findById(id);
+        if (toUpdate.isEmpty()){
+            throw new IllegalArgumentException("Password with ID " + id + " not found");
+        }
+        Password updatePassword = new Password();
+        encdecUtil.initFromStrings("3k8C9JS6p0d4LwgF+PSa9a4qjNWPh/klCJC3Lm0wmuY=","cfXyXPfwgggkgp0c");
+        updatePassword.setWebsite(encdecUtil.encrypt(updatingDto.getWebsite()));
+        updatePassword.setPassword(encdecUtil.encrypt(updatingDto.getPassword()));
+
+
+        return passwordsRepository.save(updatePassword);
     }
 
 }
