@@ -1,6 +1,6 @@
 package com.bootcamp.application.passwordmanager.repositories;
 
-import com.bootcamp.application.passwordmanager.DTOs.UserRegistrationTable;
+import com.bootcamp.application.passwordmanager.models.UserRegistrationTable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

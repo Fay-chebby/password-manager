@@ -2,7 +2,7 @@ package com.bootcamp.application.passwordmanager.ServiceLayer;
 
 import com.bootcamp.application.passwordmanager.CustomExceptions.UserExistException;
 import com.bootcamp.application.passwordmanager.CustomExceptions.WeakPasswordException;
-import com.bootcamp.application.passwordmanager.DTOs.UserRegistrationTable;
+import com.bootcamp.application.passwordmanager.models.UserRegistrationTable;
 import com.bootcamp.application.passwordmanager.models.AuthenticationResponseModel;
 import com.bootcamp.application.passwordmanager.models.LoginModel;
 import com.bootcamp.application.passwordmanager.models.RegistrationModel;
