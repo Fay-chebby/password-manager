@@ -4,11 +4,13 @@ import com.bootcamp.application.passwordmanager.Configurations.CryptoObjectENCDE
 import com.bootcamp.application.passwordmanager.DTOs.DecryptedDetails;
 import com.bootcamp.application.passwordmanager.DTOs.PasswordFront;
 import com.bootcamp.application.passwordmanager.DTOs.UpdatingDto;
+import com.bootcamp.application.passwordmanager.exception.NotFoundException;
 import com.bootcamp.application.passwordmanager.models.Password;
 import com.bootcamp.application.passwordmanager.repositories.PasswordsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,22 +38,29 @@ public class PO1MService {
     public DecryptedDetails decrypt(Long id) throws Exception {
         log.info("Service to decrypt details");
 
-        // Retrieve the Password object from the repository
-        Optional<Password> optionalPassword = passwordsRepository.findById(id);
-        if (optionalPassword.isEmpty()) {
-            throw new IllegalArgumentException("Password with ID " + id + " not found");
+        try {
+            Optional<Password> optionalPassword = passwordsRepository.findById(id);
+            if (optionalPassword.isEmpty()){
+                throw new NotFoundException("Password with ID " + id + " not found");
+            }
+            Password password = optionalPassword.get();
+            log.info("details fetched successfully");
+
+
+            // Initialize the encryption/decryption utility with the appropriate key and IV
+            encdecUtil.initFromStrings("3k8C9JS6p0d4LwgF+PSa9a4qjNWPh/klCJC3Lm0wmuY=", "cfXyXPfwgggkgp0c");
+
+            // Decrypt the encrypted password from the Password object
+            String decryptedPassword = encdecUtil.decrypt(password.getPassword());
+            String decryptedWebsite = encdecUtil.decrypt(password.getWebsite());
+            log.info("fetching was successful");
+            // Return the decrypted password
+            return new DecryptedDetails(decryptedPassword,decryptedWebsite);
+        }catch (NotFoundException e){
+            throw new NotFoundException("Password with ID " + id + " not found");
         }
-        Password password = optionalPassword.get();
 
-        // Initialize the encryption/decryption utility with the appropriate key and IV
-        encdecUtil.initFromStrings("3k8C9JS6p0d4LwgF+PSa9a4qjNWPh/klCJC3Lm0wmuY=", "cfXyXPfwgggkgp0c");
 
-        // Decrypt the encrypted password from the Password object
-        String decryptedPassword = encdecUtil.decrypt(password.getPassword());
-        String decryptedWebsite = encdecUtil.decrypt(password.getWebsite());
-        log.info("fetching was successful");
-        // Return the decrypted password
-        return new DecryptedDetails(decryptedPassword,decryptedWebsite);
     }
 
     public Password updateDetails(Long id, UpdatingDto updatingDto) throws Exception{
@@ -73,7 +82,8 @@ public class PO1MService {
         log.info("deleting the details managed for user with id {} ", id);
         Optional<Password> passwordToDelete = passwordsRepository.findById(id);
         if (passwordToDelete.isEmpty()){
-            throw new IllegalArgumentException("the password with is "+id+ "does not exist");
+            return HttpStatus.NOT_FOUND;
+            //return new NotFoundException("the password with id"+id+" does not exist");
         }
         Password delete = passwordToDelete.get();
         passwordsRepository.delete(delete);

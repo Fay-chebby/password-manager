@@ -2,6 +2,7 @@ package com.bootcamp.application.passwordmanager.ControllerAdvice;
 
 import com.bootcamp.application.passwordmanager.CustomExceptions.UserExistException;
 import com.bootcamp.application.passwordmanager.CustomExceptions.WeakPasswordException;
+import com.bootcamp.application.passwordmanager.exception.NotFoundException;
 import com.bootcamp.application.passwordmanager.models.ExceptionModel;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +76,21 @@ public class ExceptionHandlingController {
         exceptionModel.setExceptionClass(exceptionModel.exceptionClass(e));
         log.info("Handled the exception");
         return new ResponseEntity<>(exceptionModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionModel> handleNoFoundException(NotFoundException e)
+    {
+        log.error("details for the website not found");
+
+        exceptionModel.setDate(new Date());
+        exceptionModel.setExceptionClass(exceptionModel.getExceptionClass());
+        exceptionModel.setStatus(HttpStatus.NOT_FOUND);
+        exceptionModel.setMessage(e.getMessage());
+
+        log.info("exception handled");
+
+        return new ResponseEntity<>(exceptionModel, HttpStatus.NOT_FOUND);
     }
 
 }

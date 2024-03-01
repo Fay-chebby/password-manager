@@ -3,9 +3,9 @@ package com.bootcamp.application.passwordmanager.Controllers;
 import com.bootcamp.application.passwordmanager.DTOs.DecryptedDetails;
 import com.bootcamp.application.passwordmanager.DTOs.PasswordFront;
 import com.bootcamp.application.passwordmanager.DTOs.UpdatingDto;
+import com.bootcamp.application.passwordmanager.exception.NotFoundException;
 import com.bootcamp.application.passwordmanager.models.Password;
 import com.bootcamp.application.passwordmanager.service.PO1MService;
-import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,13 @@ public class ENCDECcryptoController {
     @GetMapping("/details")
     public ResponseEntity<DecryptedDetails> decode(@RequestParam Long id)throws Exception{
         log.info("request to get details");
-        return ResponseEntity.ok(po1MService.decrypt(id));
+            DecryptedDetails updatedPassword = po1MService.decrypt(id);
+            if (updatedPassword == null) {
+                // Handle case where Password with given ID is not found
+                throw new NotFoundException("the details for id "+id+" not found");
+            }
+            return ResponseEntity.ok(updatedPassword);
+
     }
     @PutMapping("/updateManager/{id}")
     public ResponseEntity<Password> update(@PathVariable Long id, @RequestBody UpdatingDto updatingDto) {
@@ -49,19 +55,14 @@ public class ENCDECcryptoController {
     }
 
     @DeleteMapping("/deleteManager/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+    public HttpStatus delete(@PathVariable Long id) throws Exception{
         log.info("Request to delete was received");
 
-        try {
-            HttpStatus status = po1MService.deleteDetails(id);
-            return ResponseEntity.status(status).build();
-        } catch (IllegalArgumentException e) {
-            // Handle case where password with the given ID does not exist
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            // Handle other unexpected errors
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+            HttpStatus toDelete = po1MService.deleteDetails(id);
+            if (toDelete.isError()){
+                throw new NotFoundException("not found");
+            }
+            return HttpStatus.OK;
     }
 
 
