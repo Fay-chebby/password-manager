@@ -32,6 +32,7 @@ public class PO1MService {
         encdecUtil.initFromStrings("3k8C9JS6p0d4LwgF+PSa9a4qjNWPh/klCJC3Lm0wmuY=","cfXyXPfwgggkgp0c");
         password.setPassword(encdecUtil.encrypt(front.getPassword()));
         password.setWebsite(encdecUtil.encrypt(front.getWebsite()));
+        password.setUsername(encdecUtil.encrypt(front.getUsername()));
 
         return passwordsRepository.save(password);
     }
@@ -53,9 +54,10 @@ public class PO1MService {
             // Decrypt the encrypted password from the Password object
             String decryptedPassword = encdecUtil.decrypt(password.getPassword());
             String decryptedWebsite = encdecUtil.decrypt(password.getWebsite());
+            String decryptedUsername = encdecUtil.decrypt(password.getUsername());
             log.info("fetching was successful");
             // Return the decrypted password
-            return new DecryptedDetails(decryptedPassword,decryptedWebsite);
+            return new DecryptedDetails(decryptedPassword,decryptedWebsite,decryptedUsername);
         }catch (NotFoundException e){
             throw new NotFoundException("Password with ID " + id + " not found");
         }
@@ -73,7 +75,8 @@ public class PO1MService {
         encdecUtil.initFromStrings("3k8C9JS6p0d4LwgF+PSa9a4qjNWPh/klCJC3Lm0wmuY=","cfXyXPfwgggkgp0c");
         updatePassword.setWebsite(encdecUtil.encrypt(updatingDto.getWebsite()));
         updatePassword.setPassword(encdecUtil.encrypt(updatingDto.getPassword()));
-
+        updatePassword.setUsername(encdecUtil.encrypt(updatingDto.getUsername()));
+        log.info("update success");
 
         return passwordsRepository.save(updatePassword);
     }

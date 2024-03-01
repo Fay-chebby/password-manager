@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 public class DecryptedDetails {
     private String decryptedPassword;
     private String decryptedWebsite;
+    private String decryptedUsername;
 
 
 }

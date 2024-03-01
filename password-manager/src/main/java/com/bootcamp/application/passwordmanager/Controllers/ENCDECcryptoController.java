@@ -45,11 +45,12 @@ public class ENCDECcryptoController {
             Password updatedPassword = po1MService.updateDetails(id, updatingDto);
             if (updatedPassword == null) {
                 // Handle case where Password with given ID is not found
-                return ResponseEntity.notFound().build();
+                throw new NotFoundException("user not found");
             }
             return ResponseEntity.ok(updatedPassword);
         } catch (Exception e) {
             // Handle other unexpected errors
+            log.error("error occurred");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

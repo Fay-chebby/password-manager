@@ -11,8 +11,8 @@ import java.io.Serializable;
 public class Password implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long managedId;
     private String password;
     private String website;
-
+    private String username;
 }

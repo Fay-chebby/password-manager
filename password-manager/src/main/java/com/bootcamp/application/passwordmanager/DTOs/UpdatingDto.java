@@ -8,4 +8,5 @@ import lombok.Data;
 public class UpdatingDto {
     private String password;
     private String Website;
+    private  String username;
 }
