@@ -3,29 +3,63 @@ package com.bootcamp.application.passwordmanager.Configurations;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
-import javax.crypto.SealedObject;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import java.io.Serializable;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+
 @Component
 public class CryptoObjectENCDECUtil {
+    private SecretKey secretKey;
 
-    public  SealedObject encryptObject
-            (String algorithm, Serializable object,
-             SecretKey key, IvParameterSpec iv)throws Exception{
+    private int T_Len=128;
+    private byte[] IV;
 
-        Cipher encryptionCipher = Cipher.getInstance(algorithm);
-        encryptionCipher.init(Cipher.ENCRYPT_MODE,key);
-        SealedObject sealedObject = new SealedObject(object,encryptionCipher);
-        return sealedObject;
+    public SecretKey init() throws Exception{
+        int size = 256;
+        KeyGenerator generator = KeyGenerator.getInstance("AES");
+        generator.init(size);
+        secretKey= generator.generateKey();
+        return secretKey;
     }
 
-    public static Serializable decryptObject
-            (String algorithm, SealedObject object,
-             SecretKey key, IvParameterSpec iv)throws Exception{
-        Cipher decryptionCipher = Cipher.getInstance(algorithm);
-        decryptionCipher.init(Cipher.DECRYPT_MODE,key,iv);
-        Serializable unsealedObject = (Serializable) object.getObject(decryptionCipher);
-        return unsealedObject;
+    public String encrypt(String message)throws Exception{
+        byte[] messageBytes = message.getBytes();
+        Cipher encryptionCipher  = Cipher.getInstance
+                ("AES/GCM/NoPadding");
+        GCMParameterSpec spec = new GCMParameterSpec
+                (T_Len,IV);
+        encryptionCipher.init(Cipher.ENCRYPT_MODE,secretKey,spec);
+        /*IV = encryptionCipher.getIV();*/
+        byte[] encryptedBytes = encryptionCipher.doFinal(messageBytes);
+        return encode(encryptedBytes);
+    }
+
+    public String decrypt(String encryptedMessage)throws Exception{
+        byte[] messageBytes = decode(encryptedMessage);
+        Cipher decryptionCipher = Cipher.getInstance
+                ("AES/GCM/NoPadding");
+        GCMParameterSpec spec = new GCMParameterSpec(T_Len,IV);
+        decryptionCipher.init(Cipher.DECRYPT_MODE,secretKey,spec);
+        byte[] decryptedBytes = decryptionCipher.doFinal(messageBytes);
+        return new String(decryptedBytes);
+    }
+
+    private String encode(byte[] data){
+        return Base64.getEncoder().encodeToString(data);
+    }
+    private byte[] decode(String data){
+        return Base64.getDecoder().decode(data);
+    }
+    public void initFromStrings(String Key,String IV)
+    {
+        secretKey = new SecretKeySpec(decode(Key),"AES");
+        this.IV =decode(IV);
+    }
+    public String exportKeys(){
+        System.out.println("Secret Key :"+encode(secretKey.getEncoded()));
+        System.out.println("iv :"+encode(IV));
+        return null;
     }
 }

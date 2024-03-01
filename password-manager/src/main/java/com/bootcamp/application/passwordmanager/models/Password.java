@@ -17,8 +17,6 @@ public class Password implements Serializable {
     private Long id;
     private String password;
     private String website;
-    private SealedObject encryptedPassword;
 
-    public void setEncryptedPassword(SealedObject encryptedObject) {
-    }
+
 }

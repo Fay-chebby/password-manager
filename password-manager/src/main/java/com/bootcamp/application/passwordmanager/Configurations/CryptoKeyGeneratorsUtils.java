@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import java.security.SecureRandom;
 
 @Component
 public class CryptoKeyGeneratorsUtils {
@@ -19,11 +17,11 @@ public class CryptoKeyGeneratorsUtils {
         return SECRET_KEY;
     }
 
-    //generate initialization vector from secure random
+    /*//generate initialization vector from secure random
     public IvParameterSpec generateIv(){
         byte[] IV = new byte[16];
         new SecureRandom().nextBytes(IV);
         return new IvParameterSpec(IV);
-    }
+    }*/
 
 }
