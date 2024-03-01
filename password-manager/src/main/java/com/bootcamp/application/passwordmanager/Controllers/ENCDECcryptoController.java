@@ -2,6 +2,7 @@ package com.bootcamp.application.passwordmanager.Controllers;
 
 import com.bootcamp.application.passwordmanager.DTOs.DecryptedDetails;
 import com.bootcamp.application.passwordmanager.DTOs.PasswordFront;
+import com.bootcamp.application.passwordmanager.DTOs.UpdatingDto;
 import com.bootcamp.application.passwordmanager.models.Password;
 import com.bootcamp.application.passwordmanager.service.PO1MService;
 import lombok.Generated;
@@ -25,10 +26,27 @@ public class ENCDECcryptoController {
         return ResponseEntity.ok(po1MService.encryptDetails(front));
     }
 
-    @PostMapping("/details")
+    @GetMapping("/details")
     public ResponseEntity<DecryptedDetails> decode(@RequestParam Long id)throws Exception{
         log.info("request to get details");
         return ResponseEntity.ok(po1MService.decrypt(id));
     }
+    @PutMapping("/updateManager/{id}")
+    public ResponseEntity<Password> update(@PathVariable Long id, @RequestBody UpdatingDto updatingDto) {
+        log.info("Request to update the manager was received");
+
+        try {
+            Password updatedPassword = po1MService.updateDetails(id, updatingDto);
+            if (updatedPassword == null) {
+                // Handle case where Password with given ID is not found
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(updatedPassword);
+        } catch (Exception e) {
+            // Handle other unexpected errors
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 }

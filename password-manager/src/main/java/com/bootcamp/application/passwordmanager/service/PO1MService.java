@@ -59,7 +59,7 @@ public class PO1MService {
         if (toUpdate.isEmpty()){
             throw new IllegalArgumentException("Password with ID " + id + " not found");
         }
-        Password updatePassword = new Password();
+        Password updatePassword = toUpdate.get();
         encdecUtil.initFromStrings("3k8C9JS6p0d4LwgF+PSa9a4qjNWPh/klCJC3Lm0wmuY=","cfXyXPfwgggkgp0c");
         updatePassword.setWebsite(encdecUtil.encrypt(updatingDto.getWebsite()));
         updatePassword.setPassword(encdecUtil.encrypt(updatingDto.getPassword()));
