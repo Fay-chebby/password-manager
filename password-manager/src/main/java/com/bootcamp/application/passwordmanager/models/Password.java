@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Entity
 public class Password {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long managedId;
     private String password;
     private String website;
