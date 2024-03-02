@@ -23,8 +23,8 @@ import java.util.List;
 public class UserRegistrationTable implements UserDetails {
 
     @Id
- /*   @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;*/
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @Column(unique = true)
     private String username;
