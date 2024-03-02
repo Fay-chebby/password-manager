@@ -5,7 +5,7 @@ import com.bootcamp.application.passwordmanager.DTOs.PasswordFront;
 import com.bootcamp.application.passwordmanager.DTOs.UpdatingDto;
 import com.bootcamp.application.passwordmanager.exception.NotFoundException;
 import com.bootcamp.application.passwordmanager.models.Password;
-import com.bootcamp.application.passwordmanager.service.PO1MService;
+import com.bootcamp.application.passwordmanager.ServiceLayer.PO1MService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

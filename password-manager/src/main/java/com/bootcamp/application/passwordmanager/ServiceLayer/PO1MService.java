@@ -1,4 +1,4 @@
-package com.bootcamp.application.passwordmanager.service;
+package com.bootcamp.application.passwordmanager.ServiceLayer;
 
 import com.bootcamp.application.passwordmanager.Configurations.CryptoObjectENCDECUtil;
 import com.bootcamp.application.passwordmanager.DTOs.DecryptedDetails;
