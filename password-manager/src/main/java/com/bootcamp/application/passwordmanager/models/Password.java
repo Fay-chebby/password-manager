@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class Password implements Serializable {
+public class Password {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long managedId;
