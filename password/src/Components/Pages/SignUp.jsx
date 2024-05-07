@@ -32,9 +32,8 @@ class SignUp extends Component {
         // Send registration data to the backend
         UserService.signup(name, email, password)
             .then((response) => {
-                // Handle successful registration
-                console.log(response.data); // You might want to do something with the response
-                // Redirect or do something else upon successful registration
+
+                console.log(response.data);
             })
             .catch((error) => {
                 // Handle registration failure

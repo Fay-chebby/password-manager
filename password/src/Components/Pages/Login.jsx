@@ -22,12 +22,12 @@ class Login extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { username, password } = this.state;
-        // Send login credentials to the backend
+        // Send login to backend
         UserService.login(username, password)
             .then((response) => {
                 // Handle successful login
-                console.log(response.data); // You might want to do something with the response
-                // Redirect or do something else upon successful login
+                console.log(response.data);
+
             })
             .catch((error) => {
                 // Handle login failure
