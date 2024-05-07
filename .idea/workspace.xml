@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="eff5daff-9802-4e55-adbe-f230d2ffa4c9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/Configurations/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/ControllerAdvice/ExceptionHandlingController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/Controllers/EncryptionDecryptionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/Controllers/UserAuthenticationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/CustomExceptions/UserExistException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/CustomExceptions/WeakPasswordException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/DTOs/PasswordFront.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/DTOs/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/DTOs/UserRegistrationTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/SecurityFilters/JwtFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/ServiceLayer/AuthenticationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/ServiceLayer/JwtServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/ServiceLayer/PasswordManagementService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/ServiceLayer/UserDetailsImplService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/configurations/encrption/PasswordDetailsEncryption.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/models/AuthenticationResponseModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/models/ExceptionModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/models/LoginModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/models/Password.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/models/RegistrationModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/models/ResponseModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/repositories/ManagedPasswordsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/repositories/UserDetailsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password-manager/src/test/java/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password/src/Assets/pics/pass.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password/src/Assets/pics/password.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password/src/Assets/pics/pc.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/password/src/Assets/pics/phone.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password-manager/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/password-manager/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/PasswordManagerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/password-manager/src/main/java/com/bootcamp/application/passwordmanager/PasswordManagerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password-manager/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/password-manager/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/password/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/password/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/password/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password/src/Components/Navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/password/src/Components/Navbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password/src/Components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/password/src/Components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password/src/Components/Pages/Home.css" beforeDir="false" afterPath="$PROJECT_DIR$/password/src/Components/Pages/Home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password/src/Components/Pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/password/src/Components/Pages/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password/src/Components/Pages/Password.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/password/src/Components/Pages/Password.jsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2fugQob1XHZcbQeN9QxYmPMwrkM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.Navbar.jsx.executor": "Run",
+    "Node.js.SignUp.jsx.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Merging main",
+    "last_opened_file_path": "C:/Users/chebe/Desktop/Password",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eff5daff-9802-4e55-adbe-f230d2ffa4c9" name="Changes" comment="" />
+      <created>1714656363432</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714656363432</updated>
+      <workItem from="1714656364467" duration="250000" />
+      <workItem from="1714656689970" duration="12000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

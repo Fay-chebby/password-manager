@@ -3,7 +3,7 @@ export const Footer=()=>{
     return(
         <div className="footer">
             <div></div>
-            <p>&copy 2024</p>
+            <p>Safety  with us 👍</p>
         </div>
     )
 }

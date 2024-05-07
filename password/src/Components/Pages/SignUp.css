@@ -6,7 +6,7 @@
     margin: 0;
 }*/
 body{
-    background: linear-gradient(#2a00b7,#42006c);
+    /*background: linear-gradient(#2a00b7,#42006c);*/
 }
 .sign__container{
 
@@ -20,7 +20,7 @@ body{
 
 fieldset {
     /*max-width: 200px;*/
-    background-color: lightgray;
+    background-color: #f0ebe1;
     width: 100%;
     /*padding: 20px;*/
     border: 1px solid #333;
@@ -44,7 +44,7 @@ input{
 
 }
 button {
-    background-color: #2a00b7;
+    background-color: #0d0c22;
     color: white;
     width:100%;
     padding: 10px 20px;
@@ -55,7 +55,7 @@ button {
 }
 button:hover{
     background-color: white;
-    color:#2a00b7;
+    color:#797979;
 }
 input {
     width: 100%;

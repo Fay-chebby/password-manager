@@ -8,21 +8,20 @@
     margin-top: 3rem;
 }
 
-fieldset {
-    max-width: 500px;
-    width: 100%;
+.fieldset {
+    width: 200px;
     padding: 20px;
-    border: 1px solid #333;
+    border: 1px solid #f0ebe1;
     border-radius: 8px;
     box-sizing: border-box;
 }
-input {
+.input {
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
 }
-button {
-    background-color: lightgreen;
+.button {
+    background-color: #0d0c22;
     color: white;
     padding: 10px 20px;
     border: none;

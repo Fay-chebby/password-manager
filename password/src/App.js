@@ -9,16 +9,18 @@ import {SignUp} from "./Components/Pages/SignUp";
 import {useEffect} from "react";
 import {Footer} from "./Components/Footer";
 
+
 function App() {
     useEffect(
         ()=>{
-            fetch('https://localhost:8080')
+            fetch('"/http://192.168.0.117:8080')
                 .then(response =>response.json())
                 .then(result=>console.log(result));
         },[]);
   return (
     <div >
 <Navbar/>
+
         <Routes>
 
             <Route path="/" element={<Home/>}/>
