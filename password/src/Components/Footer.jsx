@@ -1,4 +1,6 @@
 import React from "react";
+import UserService from "../Services/UserService";
+
 export const Footer=()=>{
     return(
         <div className="footer">

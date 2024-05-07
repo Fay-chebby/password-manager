@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import passwordImage from "../../Assets/pics/password.jpg";
+import React, { useState, useEffect } from "react";
+
 import "./Password.css";
 import DataTable from "react-data-table-component";
+import axios from "axios";
 
 export const Password = () => {
     const columns = [
@@ -21,6 +22,16 @@ export const Password = () => {
             sortable: true,
         },
         {
+            name: "Account",
+            selector: (row) => row.account,
+            sortable: true,
+        },
+        {
+            name: "UserName",
+            selector: (row) => row.userName,
+            sortable: true,
+        },
+        {
             name: "Password",
             selector: (row) => row.password,
             sortable: true,
@@ -28,13 +39,25 @@ export const Password = () => {
     ];
 
     const [records, setRecords] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+        fetchRecords();
+    }, []);
+
+    const fetchRecords = () => {
+        // Fetch records from the backend
+        axios.get('/api/passwords')
+            .then(response => {
+                setRecords(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching records:', error);
+            });
+    };
 
     const handleFilter = (event) => {
-
-        const newData = records.filter((row) => {
-            return row.constructor.toLowerCase().includes(event.target.value.toLowerCase());
-        });
-        setRecords(newData);
+        setSearchTerm(event.target.value);
     };
 
     const handleSubmit = (event) => {
@@ -45,18 +68,25 @@ export const Password = () => {
             date: formData.get("date"),
             note: formData.get("note"),
             email: formData.get("email"),
+            account: formData.get("account"),
+            userName: formData.get("userName"),
             password: formData.get("password"),
         };
 
-        setRecords([...records, newRecord]);
-
-        event.target.reset();
+        // Send new record to the backend
+        axios.post('/api/passwords', newRecord)
+            .then(response => {
+                setRecords([...records, response.data]);
+                event.target.reset();
+            })
+            .catch(error => {
+                console.error('Error adding record:', error);
+            });
     };
 
     return (
         <div>
             <div className="container">
-
                 <div className="sign__container">
                     <fieldset>
                         <form onSubmit={handleSubmit}>
@@ -79,12 +109,12 @@ export const Password = () => {
                             <label htmlFor="account">
                                 <h3>Account:</h3>
                             </label>
-                            <input type="account" name="account" placeholder="Enter your account" required/>
+                            <input type="text" name="account" placeholder="Enter your account" required/>
                             <br/>
                             <label htmlFor="userName">
-                                <h3>UseName:</h3>
+                                <h3>UserName:</h3>
                             </label>
-                            <input type="userName" name="UserName" placeholder="userName" required/>
+                            <input type="text" name="userName" placeholder="userName" required/>
                             <br/>
                             <label htmlFor="password">
                                 <h3>Password:</h3>
@@ -102,7 +132,12 @@ export const Password = () => {
                 <div className="text-end">
                     <input type="text" onChange={handleFilter} placeholder="Search"/>
                 </div>
-                <DataTable columns={columns} data={records} selectableRows fixedHeader pagination />
+                <DataTable columns={columns} data={records.filter(record =>
+                    record.note.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    record.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    record.account.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    record.userName.toLowerCase().includes(searchTerm.toLowerCase())
+                )} selectableRows fixedHeader pagination />
             </div>
         </div>
     );
