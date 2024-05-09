@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequestMapping("/api/v0/")
+<<<<<<< HEAD
 @CrossOrigin(value = "\"/http://192.168.0.117:3000\"")
+=======
+@CrossOrigin( value = "http://localhost:3000")
+>>>>>>> a8631feb5922f73a39ada9af844305b11be964c9
 public class UserAuthenticationController {
 
     private final AuthenticationService authenticationService;

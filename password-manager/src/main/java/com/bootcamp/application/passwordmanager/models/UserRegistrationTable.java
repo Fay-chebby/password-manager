@@ -1,4 +1,4 @@
-package com.bootcamp.application.passwordmanager.DTOs;
+package com.bootcamp.application.passwordmanager.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -77,4 +77,7 @@ public class UserRegistrationTable implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+
 }
